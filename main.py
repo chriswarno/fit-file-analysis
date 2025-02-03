@@ -1,19 +1,16 @@
 from typing import Annotated
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.responses import FileResponse
-from garmin_fit_sdk import Decoder, Stream
+from garmin_fit_sdk import Decoder, Stream, Profile
 import python_multipart
 import aiofiles
 import json
 from datetime import datetime
+import tempfile
 
 app = FastAPI()
 
-class DateTimeEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, datetime):
-            return obj.isoformat()
-        return json.JSONEncoder.default(self, obj)
+# data_file = tempfile.NamedTemporaryFile()
 
 @app.get("/")
 def read_root():
@@ -29,6 +26,8 @@ async def upload_file(file: Annotated[UploadFile, File()]):
                 await f.write(chunk)
 
         result = await decode_file(file_location)
+        #async with aiofiles.open(data_file.name, 'w') as f:
+            #await f.write(result)
         
         # Return results
         return result
@@ -36,22 +35,36 @@ async def upload_file(file: Annotated[UploadFile, File()]):
         return {"error": "Uploaded file is not a .fit file"}
     
 
+record_fields = set()
+record_data = set()
 async def decode_file(file_location: str):
     async with aiofiles.open(file_location, 'rb') as f:
         print(f"Decoding file: {file_location}")
+
         stream = await stream_file(f, file_location)
         print(f"Stream: {stream}")
+
         decoder = decode(stream)
         print(f"Decoder: {decoder}")
+
+        
+        print(f"Record Fields: {record_fields}")
+
         try:
-            messages, errors = decoder.read()
-            print(f"Messages: {messages}")
+            messages, errors = decoder.read(
+                mesg_listener = mesg_listener,
+                convert_datetimes_to_dates = True,
+            )
+            #print(f"Messages: {messages}")
             print(f"Errors: {errors}")
-            serialized_messages = json.dumps(messages, cls=DateTimeEncoder)
+            print(f"Record Fields: {record_fields}")
+            print(f"Record Data: {record_data}")
+            csv = parse_to_csv(messages)
         except Exception as e:
             print(f"Error during decoding: {e}")
             return {"error": "Failed to decode file"}
-    return serialized_messages
+
+    return csv
 
 
 async def stream_file(f, file_location: str):
@@ -65,6 +78,25 @@ def decode(stream):
     decoder = Decoder(stream)
     print(f"Decoder created with stream: {stream}")
     return decoder
+
+
+def mesg_listener(mesg_num, message):
+    if mesg_num == Profile['mesg_num']['RECORD']:
+        for field in message:
+            record_fields.add(field)
+            
+        for field in message:
+            record_data.add(message[field])
+
+
+def parse_to_csv ():
+    data = [
+        [record_fields]
+        #[]
+    ]
+
+    
+    return data
 
 
 '''
