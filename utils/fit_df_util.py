@@ -1,14 +1,18 @@
-csv = []
+import pandas as pd
+import numpy as np
+from pandas import DataFrame
 
-def csv_head(record_fields):
-    header = []
+header = []
+body = []
+
+df = pd.DataFrame(np.array([body]),
+                  columns=[header])
+
+def df_head(record_fields):
     header.append(record_fields)
-    csv.append(header)
-    return csv
+    return header
 
 
 def csv_body(record_data):
-    body = []
     body.append(record_data)
-    csv.append(body)
-    return csv
+    return body
