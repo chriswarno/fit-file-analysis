@@ -1,2 +1,2 @@
-from .fit_decode_util import fields, data, messages
-from .fit_df_util import fit_df
+from .fit_utils.fit_decode_util import messages
+from .fit_utils.fit_df_util import fit_df

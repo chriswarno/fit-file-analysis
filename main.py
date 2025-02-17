@@ -2,22 +2,20 @@ import streamlit as st
 
 import utils
 
-st.title("Fit File Analysis")
+def main():
+    st.title("Fit File Analysis")
 
-file = st.file_uploader("Upload a .fit file", type=["fit"])
+    file = st.file_uploader("Upload a .fit file", type=["fit"])
 
-contents = file.read()
+    contents = file.read()
 
-record_fields = utils.fields(contents)
-record_data = utils.data(contents)
+    messages = utils.messages(contents)
 
-messages = utils.messages(contents)
+    df = utils.fit_df(messages)
 
-st.write("Record Fields:", record_fields)
-st.write("Record Data:", record_data)
-st.write("Messages:", messages)
+    st.dataframe(df)
+    st.line_chart(df, x="timestamp")
 
-df = utils.fit_df(record_fields, record_data)
 
-st.dataframe(df)
-st.write(df)
+if __name__ == "__main__":
+    main()
