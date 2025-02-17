@@ -6,8 +6,18 @@ st.title("Fit File Analysis")
 
 file = st.file_uploader("Upload a .fit file", type=["fit"])
 
-record_fields = utils.constr(file)
+contents = file.read()
 
-csv_head = utils.csv_head(record_fields)
+record_fields = utils.fields(contents)
+record_data = utils.data(contents)
 
-st.write(csv_head)
+messages = utils.messages(contents)
+
+st.write("Record Fields:", record_fields)
+st.write("Record Data:", record_data)
+st.write("Messages:", messages)
+
+df = utils.fit_df(record_fields, record_data)
+
+st.dataframe(df)
+st.write(df)
