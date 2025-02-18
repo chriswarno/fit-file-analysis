@@ -2,6 +2,7 @@ from garmin_fit_sdk import Decoder, Stream
 import streamlit as st
 
 
+@st.cache_data
 def messages(file):
     try:
         stream = Stream.from_byte_array(file)  # Stream object to decode the file
