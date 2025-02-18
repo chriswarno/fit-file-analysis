@@ -35,10 +35,13 @@ def main():
     expander.write(session_mesgs)
 
     rdf = utils.records_df(messages) # dataframe of record messages
+    rdf_subset = utils.graph_subset(rdf) # subset of record messages for graphing
+
+    st.dataframe(rdf_subset) # dataframe for debugging the graphing subset
 
     st.dataframe(rdf)
-    st.line_chart(
-        rdf,
+    st.line_chart( # line chart of heart rate, power, and cadence
+        rdf_subset,
         x="timestamp",
         y=["heart_rate", "power", "cadence"],
         color=["#FF0000","#0000FF", "#00FF00"]
