@@ -14,7 +14,12 @@ def main():
     df = utils.fit_df(messages)
 
     st.dataframe(df)
-    st.line_chart(df, x="timestamp")
+    st.line_chart(
+        df,
+        x="timestamp",
+        y=["heart_rate", "power", "cadence"],
+        color=["#FF0000","#0000FF", "#00FF00"]
+        )
 
 
 if __name__ == "__main__":
