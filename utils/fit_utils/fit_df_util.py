@@ -1,4 +1,5 @@
 import pandas as pd
+import streamlit as st
 
 
 def df_head(data):
@@ -19,6 +20,7 @@ def df_body(data):
     return body
 
 
+@st.cache_data
 def fit_df(messages):
     data = messages
 
