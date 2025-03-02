@@ -2,6 +2,16 @@ import streamlit as st
 
 import utils
 
+'''
+class Data:
+    def __init__(self, file, record_mesgs, power_zones, lap_mesgs, session_mesgs):
+        self.file = file
+        self.record_mesgs = record_mesgs
+        self.power_zones = power_zones
+        self.lap_mesgs = lap_mesgs
+        self.session_mesgs = session_mesgs
+'''
+
 def main():
     st.title("Fit File Analysis")
 

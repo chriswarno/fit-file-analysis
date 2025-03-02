@@ -4,6 +4,31 @@ import streamlit as st
 
 @st.cache_data
 def messages(file):
+    '''
+    match file:
+        case (type(file) === str):
+            stream = Stream.from_file(file)
+            return stream
+        case type(file) === bytearray:
+            stream = Stream.from_byte_array
+            return stream
+        case type(file) === bytes:
+            stream = Stream.from_byte_io
+            return stream
+        case type(file) === 
+    '''
+    if isinstance(file, str):
+        stream = Stream.from_file(file)
+        return stream
+    elif isinstance(file, bytearray):
+        stream = Stream.from_byte_array(file)
+        return stream
+    elif isinstance(file, bytes):
+        stream = Stream.from_byte_io
+        return stream
+    elif isinstance(file, )
+
+
     try:
         stream = Stream.from_byte_array(file)  # Stream object to decode the file
         st.write(stream)
