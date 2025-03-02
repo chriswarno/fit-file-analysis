@@ -1,36 +1,29 @@
 from garmin_fit_sdk import Decoder, Stream
 import streamlit as st
 
+from io import BufferedReader
+
 
 @st.cache_data
 def messages(file):
-    '''
-    match file:
-        case (type(file) === str):
-            stream = Stream.from_file(file)
-            return stream
-        case type(file) === bytearray:
-            stream = Stream.from_byte_array
-            return stream
-        case type(file) === bytes:
-            stream = Stream.from_byte_io
-            return stream
-        case type(file) === 
-    '''
-    if isinstance(file, str):
+    # elif statement to get the stream depending on how the file data was sent to the function
+    if isinstance(file, str): # if a file path is provided
         stream = Stream.from_file(file)
-        return stream
-    elif isinstance(file, bytearray):
+        #return stream
+    elif isinstance(file, bytearray): # if a bytearray is provided
         stream = Stream.from_byte_array(file)
-        return stream
-    elif isinstance(file, bytes):
-        stream = Stream.from_byte_io
-        return stream
-    elif isinstance(file, )
-
+        #return stream
+    elif isinstance(file, bytes): # if a bytesIO object was provided
+        stream = Stream.from_byte_io(file)
+        #return stream
+    elif isinstance(file, BufferedReader): # if a BufferedReader was provided
+        stream = Stream.from_buffered_reader(file)
+        #return stream
+    else: # if none of the functions work
+        e = st.error("An error occurred decoding the file.")
+        #return e
 
     try:
-        stream = Stream.from_byte_array(file)  # Stream object to decode the file
         st.write(stream)
         
         decoder = Decoder(stream)  # Decoder object to decode the stream
