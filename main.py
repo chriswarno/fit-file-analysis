@@ -20,7 +20,7 @@ def main():
     contents = file.read() # Variable to hold the contents of the .fit file
 
     messages = utils.messages(contents) # nested dictionary of all .fit file messages
-    #st.write(messages) # messages for debugging
+    st.write(messages) # messages for debugging
 
     expander = st.expander("Ride Data") # expander to hold all ride data
 
@@ -46,6 +46,7 @@ def main():
 
     rdf = utils.records_df(messages) # dataframe of record messages
     rdf_subset = utils.graph_subset(rdf) # subset of record messages for graphing
+    ride_data = ride_data(session_mesgs)
 
     st.dataframe(rdf_subset) # dataframe for debugging the graphing subset
 
@@ -56,6 +57,9 @@ def main():
         y=["heart_rate", "power", "cadence"],
         color=["#FF0000","#0000FF", "#00FF00"]
         )
+    #st.bar_chart(
+        #data= 
+    #)
     
     '''
     map_data = utils.ride_map(messages)
