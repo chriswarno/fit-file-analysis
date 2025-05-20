@@ -1,0 +1,3 @@
+streamlit
+pandas
+garmin_fit_sdk
