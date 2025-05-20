@@ -17,22 +17,25 @@ def hr_zones(messages): # function to get heart rate zones from the decoded file
     data = messages # data = messages from the decoded file
     hr_zones = []
 
-    for n in data["hr_zone_mesgs"]: # loop to iterate through the heart rate zone messages, and append them to hr_zones list
-        hr_zone = n
-        hr_zones.append(hr_zone)
-
-    return hr_zones # return hr_zones list
-
+    try:
+        for n in data["hr_zone_mesgs"]: # loop to iterate through the heart rate zone messages, and append them to hr_zones list
+            hr_zone = n
+            hr_zones.append(hr_zone)
+        return hr_zones # return hr_zones list
+    except:
+        return hr_zones
 
 def power_zones(messages): # function to get power zones from the decoded file
     data = messages # data = messages from the decoded file
     power_zones = []
 
-    for n in data["power_zone_mesgs"]: # loop to iterate through the power zone messages, and append them to power_zones list
-        power_zone = n
-        power_zones.append(power_zone)
-
-    return power_zones # return power_zones list
+    try:
+        for n in data["power_zone_mesgs"]: # loop to iterate through the power zone messages, and append them to power_zones list
+            power_zone = n
+            power_zones.append(power_zone)
+        return power_zones # return power_zones list
+    except:
+        return power_zones
 
 
 def lap_mesgs(messages): # function to get lap messages from the decoded file
